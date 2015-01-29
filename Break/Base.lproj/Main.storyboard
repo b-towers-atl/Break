@@ -2,10 +2,13 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Cubano-Regular.otf">
+            <string>Cubano-Regular</string>
+            <string>Cubano-Regular</string>
             <string>Cubano-Regular</string>
         </mutableArray>
     </customFonts>
@@ -75,9 +78,62 @@
                                             </mask>
                                         </variation>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BREAK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6R-pI-6uh">
+                                        <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="71" id="0ZY-q8-dww"/>
+                                            <constraint firstAttribute="width" constant="242" id="unr-KI-pns"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Cubano-Regular" family="Cubano" pointSize="80"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="0ZY-q8-dww"/>
+                                                <exclude reference="unr-KI-pns"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=compact-widthClass=regular">
+                                            <mask key="constraints">
+                                                <include reference="0ZY-q8-dww"/>
+                                                <include reference="unr-KI-pns"/>
+                                            </mask>
+                                        </variation>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tu1-Ib-ceq">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="77" id="Nah-MU-CrF"/>
+                                            <constraint firstAttribute="height" constant="33" id="hzO-Zc-jav"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Cubano-Regular" family="Cubano" pointSize="30"/>
+                                        <state key="normal" title="PLAY">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="Nah-MU-CrF"/>
+                                                <exclude reference="hzO-Zc-jav"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=compact-widthClass=regular">
+                                            <mask key="constraints">
+                                                <include reference="Nah-MU-CrF"/>
+                                                <include reference="hzO-Zc-jav"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="playGame" destination="vXZ-lx-hvc" eventType="touchUpInside" id="rsv-2f-3vc"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="tu1-Ib-ceq" secondAttribute="bottom" constant="80" id="054-En-w7X"/>
+                                    <constraint firstAttribute="centerX" secondItem="R6R-pI-6uh" secondAttribute="centerX" id="5bX-x1-Llz"/>
+                                    <constraint firstAttribute="centerX" secondItem="tu1-Ib-ceq" secondAttribute="centerX" id="N6H-5B-WAH"/>
                                     <constraint firstAttribute="centerX" secondItem="UND-DY-zv7" secondAttribute="centerX" id="bh2-c4-zm4"/>
+                                    <constraint firstAttribute="centerY" secondItem="R6R-pI-6uh" secondAttribute="centerY" constant="14.5" id="gdu-gH-kKQ"/>
                                     <constraint firstItem="UND-DY-zv7" firstAttribute="top" secondItem="kdF-s3-VsV" secondAttribute="top" id="jYc-bI-m0R"/>
                                     <constraint firstAttribute="trailing" secondItem="O8k-VJ-Ybl" secondAttribute="trailing" constant="15" id="sC8-NQ-2wG"/>
                                     <constraint firstItem="O8k-VJ-Ybl" firstAttribute="top" secondItem="kdF-s3-VsV" secondAttribute="top" id="uZB-lK-Y9x"/>
@@ -86,10 +142,16 @@
                                     <mask key="subviews">
                                         <exclude reference="UND-DY-zv7"/>
                                         <exclude reference="O8k-VJ-Ybl"/>
+                                        <exclude reference="R6R-pI-6uh"/>
+                                        <exclude reference="tu1-Ib-ceq"/>
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="bh2-c4-zm4"/>
                                         <exclude reference="jYc-bI-m0R"/>
+                                        <exclude reference="5bX-x1-Llz"/>
+                                        <exclude reference="gdu-gH-kKQ"/>
+                                        <exclude reference="054-En-w7X"/>
+                                        <exclude reference="N6H-5B-WAH"/>
                                         <exclude reference="sC8-NQ-2wG"/>
                                         <exclude reference="uZB-lK-Y9x"/>
                                     </mask>
@@ -98,10 +160,16 @@
                                     <mask key="subviews">
                                         <include reference="UND-DY-zv7"/>
                                         <include reference="O8k-VJ-Ybl"/>
+                                        <include reference="R6R-pI-6uh"/>
+                                        <include reference="tu1-Ib-ceq"/>
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="bh2-c4-zm4"/>
                                         <include reference="jYc-bI-m0R"/>
+                                        <include reference="5bX-x1-Llz"/>
+                                        <include reference="gdu-gH-kKQ"/>
+                                        <include reference="054-En-w7X"/>
+                                        <include reference="N6H-5B-WAH"/>
                                         <include reference="sC8-NQ-2wG"/>
                                         <include reference="uZB-lK-Y9x"/>
                                     </mask>
@@ -129,6 +197,9 @@
                                 <exclude reference="kdF-s3-VsV"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="AQk-gl-LNn"/>
+                                <exclude reference="D4Y-9f-0nd"/>
+                                <exclude reference="WbJ-cK-c3r"/>
                                 <exclude reference="81W-Pu-jZj"/>
                                 <exclude reference="SoZ-cP-lIp"/>
                                 <exclude reference="Whb-9g-SMy"/>
@@ -138,9 +209,6 @@
                                 <exclude reference="Yfq-X4-5a2"/>
                                 <exclude reference="fp7-LC-ZsI"/>
                                 <exclude reference="qJj-4R-32w"/>
-                                <exclude reference="AQk-gl-LNn"/>
-                                <exclude reference="D4Y-9f-0nd"/>
-                                <exclude reference="WbJ-cK-c3r"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact-widthClass=regular">
@@ -149,6 +217,9 @@
                                 <include reference="kdF-s3-VsV"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="AQk-gl-LNn"/>
+                                <include reference="D4Y-9f-0nd"/>
+                                <exclude reference="WbJ-cK-c3r"/>
                                 <exclude reference="81W-Pu-jZj"/>
                                 <include reference="SoZ-cP-lIp"/>
                                 <include reference="Whb-9g-SMy"/>
@@ -158,15 +229,14 @@
                                 <include reference="Yfq-X4-5a2"/>
                                 <include reference="fp7-LC-ZsI"/>
                                 <include reference="qJj-4R-32w"/>
-                                <include reference="AQk-gl-LNn"/>
-                                <include reference="D4Y-9f-0nd"/>
-                                <exclude reference="WbJ-cK-c3r"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="breakLabel" destination="R6R-pI-6uh" id="99g-gB-Kbr"/>
                         <outlet property="gameView" destination="kdF-s3-VsV" id="8Pe-i8-iG4"/>
                         <outlet property="livesView" destination="UND-DY-zv7" id="cu6-tm-kI4"/>
+                        <outlet property="playButton" destination="tu1-Ib-ceq" id="6EE-jj-Db7"/>
                         <outlet property="scoreLabel" destination="O8k-VJ-Ybl" id="HWM-7I-6qR"/>
                     </connections>
                 </viewController>

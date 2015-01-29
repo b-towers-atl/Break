@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
 
+    @IBOutlet weak var breakLabel: UILabel!
+    @IBOutlet weak var playButton: UIButton!
+    
     @IBOutlet weak var gameView: UIView!
     @IBOutlet weak var livesView: LivesView!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -17,6 +20,17 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var score: Int = 0 {
         
         didSet {
+            
+            if score > GameData.mainData().topScore {
+                
+                GameData.mainData().topScore = score
+                
+            }
+            
+            GameData.mainData().currentGame?["totalScore"] = score
+            
+//            ["totalScore"] is a subscript
+//            GameData.mainData().currentGame?["totalScore"] = score
             
             scoreLabel.text = String(score)
             
@@ -74,9 +88,59 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         paddleBehavior.density = 1000000
         
+    }
+    
+    @IBAction func playGame() {
+        
+        GameData.mainData().startGame()
+        
+        breakLabel.hidden = true
+        playButton.hidden = true
+        
+        livesView.livesLeft = 4
+        score = 0
+        
         createPaddle()
         createBall()
         createBricks()
+        
+    }
+    
+    func endGame(gameOver: Bool) {
+        
+        GameData.mainData().currentLevel = gameOver ? 0 : ++GameData.mainData().currentLevel;
+        
+        println(GameData.mainData().currentLevel)
+        
+        println(GameData.mainData().gamesPlayed)
+        println(GameData.mainData().topScore)
+        
+        breakLabel.hidden = false
+        playButton.hidden = false
+        
+        // remove paddle
+        paddle.removeFromSuperview()
+        collisionBehavior.removeItem(paddle)
+        paddleBehavior.removeItem(paddle)
+        
+        // remove ball
+        for ball in ballBehavior.items as [UIView] {
+         
+            ball.removeFromSuperview()
+            collisionBehavior.removeItem(ball)
+            ballBehavior.removeItem(ball)
+            // we should never remove or add items in an array while we are working with it
+            // or else it might crash
+        }
+        
+        // remove bricks
+        for brick in brickBehavior.items as [UIView] {
+            
+            brick.removeFromSuperview()
+            collisionBehavior.removeItem(brick)
+            ballBehavior.removeItem(brick)
+            
+        }
         
     }
     
@@ -95,9 +159,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 
                 score += 100
                 
+                GameData.mainData().adjustValue(1, forKey: "bricksBusted")
+                
                 var pointsLabel = UILabel(frame: brick.frame)
                 pointsLabel.text = "+100"
-                
                 pointsLabel.textAlignment = .Center
                 
                 gameView.addSubview(pointsLabel)
@@ -116,6 +181,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
         }
         
+        if brickBehavior.items.count == 0 {
+            
+            endGame(false)
+            
+        }
+        
     }
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying, atPoint p: CGPoint) {
@@ -131,7 +202,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 
                 ball.removeFromSuperview()
                 
-                if livesView.livesLeft == 0 { return }
+                if livesView.livesLeft == 0 { endGame(true); return }
+                
+                // this method is unsafe because when we force unwrap, it has a potential to not be there and crash
+//                var ll = GameData.mainData().currentGame!["livesLost"]! + 1
+//                GameData.mainData().currentGame?["livesLost"] = ll
+                
+                GameData.mainData().adjustValue(1, forKey: "livesLost")
                 
                 livesView.livesLeft--
                 
@@ -159,7 +236,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         var pushBehavior = UIPushBehavior(items: [ball], mode: .Instantaneous)
      
-        pushBehavior.pushDirection = CGVectorMake(0.10, -0.10)
+        pushBehavior.pushDirection = CGVectorMake(0.09, -0.09)
     
         animator?.addBehavior(pushBehavior)
         
@@ -171,7 +248,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     func createBricks() {
         
         // 6 columns on the x, 4 rows on the y
-        var grid = (6,4)
+//        var grid = (6,4)
+        var grid = GameData.mainData().allLevels[GameData.mainData().currentLevel]
         
 //        grid.0 // gives 6
 //        grid.1 // gives 4
@@ -219,8 +297,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         collisionBehavior.addItem(paddle)
         paddleBehavior.addItem(paddle)
 
-        attachmentBehavior = UIAttachmentBehavior(item: paddle, attachedToAnchor: paddle.center)
-        animator?.addBehavior(attachmentBehavior)
+        // we're talking to an optional, attachmentBehavior is an optional
+        if attachmentBehavior == nil {
+            
+            attachmentBehavior = UIAttachmentBehavior(item: paddle, attachedToAnchor: paddle.center)
+            animator?.addBehavior(attachmentBehavior)
+            
+        }
         
     }
     
