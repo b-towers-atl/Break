@@ -43,10 +43,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var gravityBehavior = UIGravityBehavior()
     var collisionBehavior = UICollisionBehavior()
     var ballBehavior = UIDynamicItemBehavior()
+    var powerUpBehavior = UIDynamicItemBehavior()
     
     var brickBehavior = UIDynamicItemBehavior()
     var paddle = UIView(frame: CGRectMake(0, 0, 100, 10))
     var paddleBehavior = UIDynamicItemBehavior()
+    var powerUp = UIView(frame: CGRectMake(0, 0, 30, 30))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +60,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         animator?.addBehavior(gravityBehavior)
         animator?.addBehavior(collisionBehavior)
+        animator?.addBehavior(powerUpBehavior)
         
         animator?.addBehavior(ballBehavior)
         animator?.addBehavior(brickBehavior)
@@ -78,15 +81,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         println(collisionBehavior.boundaryIdentifiers)
         
         
-        
         ballBehavior.friction = 0
         ballBehavior.elasticity = 1
         ballBehavior.resistance = 0
         ballBehavior.allowsRotation = false
         
         brickBehavior.density = 1000000
-        
         paddleBehavior.density = 1000000
+        powerUpBehavior.density = 1000000
         
     }
     
@@ -103,7 +105,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         createPaddle()
         createBall()
         createBricks()
-        
+        createPowerUp()
     }
     
     func endGame(gameOver: Bool) {
@@ -142,12 +144,22 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
         }
         
+        // remove power up
+        for pU in powerUpBehavior.items as [UIView] {
+         
+            pU.removeFromSuperview()
+            collisionBehavior.removeItem(pU)
+            powerUpBehavior.removeItem(pU)
+            
+        }
+        
     }
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
         
         ballBehavior.items
         brickBehavior.items
+        powerUpBehavior.items
         
         for brick in brickBehavior.items as [UIView] {
             
@@ -190,6 +202,17 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             endGame(false)
             
+        }
+        
+        for powerUp in powerUpBehavior.items as [UIView] {
+            
+            if powerUp.isEqual(item1) || powerUp.isEqual(item2) {
+                
+                println("blah")
+                
+
+            }
+        
         }
         
     }
@@ -291,6 +314,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
     }
     
+    
     var attachmentBehavior: UIAttachmentBehavior?
     
     func createPaddle() {
@@ -312,6 +336,22 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             animator?.addBehavior(attachmentBehavior)
             
         }
+        
+    }
+    
+    func createPowerUp() {
+        
+        powerUp.center.x = view.center.x
+        powerUp.center.y = 250
+        powerUp.backgroundColor = UIColor.blueColor()
+        powerUp.layer.cornerRadius = 10
+        
+        
+        gameView.addSubview(powerUp)
+        
+        collisionBehavior.addItem(powerUp)
+        gravityBehavior.addItem(powerUp)
+        powerUpBehavior.addItem(powerUp)
         
     }
     
