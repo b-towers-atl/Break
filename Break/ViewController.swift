@@ -157,12 +157,17 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 collisionBehavior.removeItem(brick)
                 brick.removeFromSuperview()
                 
+                var currentLevel: Int = GameData.mainData().currentLevel
+                var levelDetails: [String: AnyObject] = GameData.mainData().allLevelDetails[currentLevel]
+                
+                var brickValue = levelDetails["point"] as Int
+                
                 score += 100
                 
                 GameData.mainData().adjustValue(1, forKey: "bricksBusted")
                 
                 var pointsLabel = UILabel(frame: brick.frame)
-                pointsLabel.text = "+100"
+                pointsLabel.text = "+\(brickValue)"
                 pointsLabel.textAlignment = .Center
                 
                 gameView.addSubview(pointsLabel)
@@ -269,8 +274,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 
                 var brick = UIView(frame: CGRectMake(x, y, width, height))
                 
-                brick.backgroundColor = UIColor.blackColor()
+                var currentLevel: Int = GameData.mainData().currentLevel
+                var levelDetails: [String: AnyObject] = GameData.mainData().allLevelDetails[currentLevel]
                 
+                var brickColor = levelDetails["color"] as UIColor
+                brick.backgroundColor = brickColor
                 brick.layer.cornerRadius = height / 2
                 
                 gameView.addSubview(brick)

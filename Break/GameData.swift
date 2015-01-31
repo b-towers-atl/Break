@@ -39,9 +39,29 @@ class GameData: NSObject {
         (4,1),
         (6,2),
         (7,3),
-        (8,4),
-        (20,10)
+        (8,4)
     
+    ]
+    
+    var allLevelDetails: [[String:AnyObject]] = [
+        
+        [
+            "color" : UIColor.blackColor(),
+            "point" : 100
+        ],
+        [
+            "color" : UIColor.greenColor(),
+            "point" : 250
+        ],
+        [
+            "color" : UIColor.magentaColor(),
+            "point" : 450
+        ],
+        [
+            "color" : UIColor.cyanColor(),
+            "point" : 1000
+        ]
+        
     ]
     
     var currentLevel = 0
