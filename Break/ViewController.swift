@@ -6,6 +6,15 @@
 //  Copyright (c) 2015 Bobby Towers. All rights reserved.
 //
 
+/*
++ make a branch off master homework-w4d5
+- when you hit a brick there should be a 20% chance that a powerup (circle uiview) drops from the brick
++ powerup uiview will need gravity added to it
+- powerup needs to be a random color
+- listen for collision between powerup and paddle
+- make the paddle change size when the powerup hits the paddle
+*/
+
 import UIKit
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
@@ -17,6 +26,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBOutlet weak var livesView: LivesView!
     @IBOutlet weak var scoreLabel: UILabel!
     
+    var chance: Int = 0
     var score: Int = 0 {
         
         didSet {
@@ -48,7 +58,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var brickBehavior = UIDynamicItemBehavior()
     var paddle = UIView(frame: CGRectMake(0, 0, 100, 10))
     var paddleBehavior = UIDynamicItemBehavior()
-    var powerUp = UIView(frame: CGRectMake(0, 0, 30, 30))
+    var powerUp = UIView(frame: CGRectMake(0, 0, 20, 20))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +98,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         brickBehavior.density = 1000000
         paddleBehavior.density = 1000000
-        powerUpBehavior.density = 1000000
+        powerUpBehavior.density = 1
         
     }
     
@@ -105,7 +115,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         createPaddle()
         createBall()
         createBricks()
-        createPowerUp()
+        
     }
     
     func endGame(gameOver: Bool) {
@@ -193,6 +203,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                     pointsLabel.removeFromSuperview()
                         
                 })
+                
+                // add chance for power ups
+                chance = Int(arc4random_uniform(5))
+                if chance == 4 {
+                    
+                    createPowerUp(brick)
+                    
+                }
                 
             }
             
@@ -339,10 +357,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
     }
     
-    func createPowerUp() {
+    func createPowerUp(brick: UIView) {
         
-        powerUp.center.x = view.center.x
-        powerUp.center.y = 250
+        powerUp.center.x = brick.center.x
+        powerUp.center.y = brick.center.y - 20
         powerUp.backgroundColor = UIColor.blueColor()
         powerUp.layer.cornerRadius = 10
         
